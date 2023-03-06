@@ -1,5 +1,5 @@
-from directoryCrawler import crawlDirectory
-from programParser import readFiles
+from crawler import crawlDirectory
+from parser import readFiles
 
 def createIgnoreList():
   with open('./ignore.txt') as f:
