@@ -2,7 +2,7 @@ from crawler import crawlDirectory
 from parser import readFiles
 
 def createIgnoreList():
-  with open('./ignore.txt') as f:
+  with open('./.ignore') as f:
     return f.read().splitlines()
 
 def main():
