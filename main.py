@@ -15,8 +15,4 @@ def main():
   filePaths = crawlDirectory(projectPath, createIgnoreList())
   fileASTs = generateFileASTs(filePaths)
 
-  for file in fileASTs:
-    for node in ast.walk(file):
-      print(f'Nodetype: {type(node).__name__:{16}} {node}')
-
 main()
