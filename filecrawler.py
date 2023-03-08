@@ -1,6 +1,6 @@
 import os
 
-def crawlDirectory(path, ignoreList):
+def crawl_directory(path, ignoreList):
   path = os.path.abspath(path)
   paths = []
   for entry in os.scandir(path):
@@ -8,7 +8,7 @@ def crawlDirectory(path, ignoreList):
       continue
 
     if entry.is_dir():
-      res = crawlDirectory(os.path.join(path, entry.name), ignoreList)
+      res = crawl_directory(os.path.join(path, entry.name), ignoreList)
       paths = paths + res
     else:
       paths.append(os.path.join(path, entry.name))

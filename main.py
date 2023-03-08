@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from filecrawler import crawlDirectory
-from parser import generateFileASTs
+from astcrawler import traverse_AST
+from filecrawler import crawl_directory
+from parser import generate_file_AST
 
 import ast
 import sys
 import os
 
-def createIgnoreList():
+def create_ignore_list():
   try:
     with open('.ignore') as f:
       return f.read().splitlines()
@@ -22,10 +23,12 @@ def main():
     print('Python project path not found!\nUsage: ./main.py <relative/absolute project path>')
     return
   
-  projectPath = sys.argv[1]
-  print('Path entered:', os.path.abspath(projectPath))
+  project_path = sys.argv[1]
+  print('Path entered:', os.path.abspath(project_path))
 
-  filePaths = crawlDirectory(projectPath, createIgnoreList())
-  fileASTs = generateFileASTs(filePaths)
-
+  file_paths = crawl_directory(project_path, create_ignore_list())
+  file_AST = generate_file_AST(file_paths)
+  for ast in file_AST:
+    traverse_AST(ast)
+  
 main()

@@ -1,14 +1,14 @@
 import ast
 
-def generateProgramAST(program):
+def generate_program_AST(program):
   return ast.parse(program)
 
-def generateFileASTs(filePaths):
+def generate_file_AST(filePaths):
   content = []
   for path in filePaths:
     with open(path, 'r') as f:
       try:
-        content.append(generateProgramAST(f.read()))
+        content.append(generate_program_AST(f.read()))
       except Exception as e:
         print('ERROR: cannot read file', path)
         print('Exception:', e, '\n')
