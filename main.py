@@ -29,6 +29,9 @@ def main():
   if len(results) > 0:
     if not os.path.exists(output_path):
       os.makedirs(output_path)
+    else:
+      print('Error: Output directory already exists')
+      return
     for idx, result in enumerate(results):
       if len(result) > 0:
         output_file = open(output_path + '/' + str(idx), 'w')
