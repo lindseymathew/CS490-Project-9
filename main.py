@@ -15,8 +15,20 @@ def main():
     print('Error: Not enough arguments\nUsage: ./main.py <relative/absolute project path> <output directory>')
     return
   
-  project_path = sys.argv[1]
-  print('Path entered:', os.path.abspath(project_path))
+  project_path = os.path.abspath(sys.argv[1])
+  if not os.path.exists(project_path):
+    print('Error: Invalid path entered:', project_path)
+    return
+  else:
+    print('Path entered:', project_path)
+  
+  output_path = os.path.abspath(sys.argv[2])
+  if not os.path.exists(output_path):
+    os.makedirs(output_path)
+    print('Output path entered:', output_path)
+  else:
+    print('Error: Output directory already exists')
+    return
 
   # Retrieve file paths that are not 'ignored' by the .ignore file.
   file_paths = crawl_directory(project_path, create_ignore_dict())
@@ -30,14 +42,7 @@ def main():
     results.append(convert_ast_to_json(ast))
 
   # Check if valid output path
-  output_path = sys.argv[2]
   if len(results) > 0:
-    if not os.path.exists(output_path):
-      os.makedirs(output_path)
-    else:
-      print('Error: Output directory already exists')
-      return
-    
     # Each file that is found is output under the output directory
     # The naming convention of the output files is
     # [0, number of files with valid JSON data).
