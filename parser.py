@@ -11,7 +11,7 @@ def generate_file_ast(file_paths):
   for path in file_paths:
     with open(path, 'r') as f:
       try:
-        content.append(generate_source_ast(f.read()))
+        content.append([path, generate_source_ast(f.read())])
       except Exception as e:
         print('ERROR: cannot read file', path)
         print('Exception:', e, '\n')

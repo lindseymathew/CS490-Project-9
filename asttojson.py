@@ -22,6 +22,7 @@ def accepted_attr(node, attr):
     return attr in acceptedattr.create_accepted_attr()[type(node)]
   except:
     print('Note: ' + str(type(node)) + ' not included in attribute dictionary.')
+    print(ast.dump(node))
     return True
 
 def ast2json(node):

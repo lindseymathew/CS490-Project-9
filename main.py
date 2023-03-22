@@ -38,17 +38,26 @@ def main():
 
   # Convert each AST to a JSON string.
   results = []
-  for ast in file_ast:
-    results.append(convert_ast_to_json(ast))
+  for [path, ast] in file_ast:
+    ast_json = convert_ast_to_json(ast)
+    results.append([path, ast_json])
 
   # Each file that is found is output under the output directory
   # The naming convention of the output files is
   # [0, number of files with valid JSON data).
-  count = 0
-  for result in results:
-    if len(result) > 0:
-      output_file = open(output_path + '/' + str(count), 'w')
-      output_file.write(json.dumps(result, indent = 2))
+  for [path, ast_json] in results:
+    if len(ast_json) > 0:
+      # Create file output structure that matches project structure in
+      # output folder.
+      rel_path = os.path.relpath(path, project_path)
+      output_file = os.path.splitext(rel_path)[0] + '_output'
+      output_dir = os.path.join(output_path, output_file)
+
+      # Create the directories for the output file to exist.
+      os.makedirs(os.path.dirname(output_dir), exist_ok = True)
+      
+      # Output the JSON file.
+      output_file = open(output_dir, 'w')
+      output_file.write(json.dumps(ast_json, indent = 2))
       output_file.close()
-      count = count + 1
 main()
