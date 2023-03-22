@@ -12,7 +12,7 @@ import sys
 
 def main():
   if len(sys.argv) < 3:
-    print('Python project path not found!\nUsage: ./main.py <relative/absolute project path> <output directory>')
+    print('Error: Not enough arguments\nUsage: ./main.py <relative/absolute project path> <output directory>')
     return
   
   project_path = sys.argv[1]
