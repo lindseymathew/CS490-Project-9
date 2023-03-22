@@ -54,6 +54,7 @@ def create_accepted_attr():
   attrdict[ast.Index] = ['value']
 
   attrdict[ast.Str] = ['s']
-  attrdict[ast.Num] = 'n'
+  attrdict[ast.Num] = ['n']
+  attrdict[ast.Bytes] = ['s']
 
   return attrdict
