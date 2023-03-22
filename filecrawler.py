@@ -14,7 +14,11 @@ Usage:
         └── helpers.py
     └── configs.py
 
-crawl_directory(my_project, ['configs.py', 'Hel*']) -> ['my_project/Test/test.py']
+ignore_list = {}
+ignore_list['paths'] = ['my_project/configs.py']
+ignore_list['patterns'] = ['Hel.*']
+
+crawl_directory(my_project, ignore_list) -> ['my_project/Test/test.py']
 """
 def crawl_directory(path, ignore_list):
   path = os.path.abspath(path)
