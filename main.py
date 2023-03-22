@@ -17,7 +17,7 @@ def main():
   
   project_path = os.path.abspath(sys.argv[1])
   if not os.path.exists(project_path):
-    print('Error: Invalid path entered:', project_path)
+    print('Error: Invalid path entered -', project_path)
     return
   else:
     print('Path entered:', project_path)
@@ -27,7 +27,7 @@ def main():
     os.makedirs(output_path)
     print('Output path entered:', output_path)
   else:
-    print('Error: Output directory already exists')
+    print('Error: Output directory already exists -', output_path)
     return
 
   # Retrieve file paths that are not 'ignored' by the .ignore file.
