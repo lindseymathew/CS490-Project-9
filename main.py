@@ -41,16 +41,14 @@ def main():
   for ast in file_ast:
     results.append(convert_ast_to_json(ast))
 
-  # Check if valid output path
-  if len(results) > 0:
-    # Each file that is found is output under the output directory
-    # The naming convention of the output files is
-    # [0, number of files with valid JSON data).
-    count = 0
-    for result in results:
-      if len(result) > 0:
-        output_file = open(output_path + '/' + str(count), 'w')
-        output_file.write(json.dumps(result, indent = 2))
-        output_file.close()
-        count = count + 1
+  # Each file that is found is output under the output directory
+  # The naming convention of the output files is
+  # [0, number of files with valid JSON data).
+  count = 0
+  for result in results:
+    if len(result) > 0:
+      output_file = open(output_path + '/' + str(count), 'w')
+      output_file.write(json.dumps(result, indent = 2))
+      output_file.close()
+      count = count + 1
 main()
