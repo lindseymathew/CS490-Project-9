@@ -16,7 +16,7 @@ def decode_bytes(value):
   except:
     return codecs.getencoder('hex_codec')(value)[0].decode('utf-8')
 
- # Modified addition of ast2json where unnecessary attributes are filtered out.
+# Modified addition of ast2json where unnecessary attributes are filtered out.
 def accepted_attr(node, attr):
   try:
     return attr in acceptedattr.create_accepted_attr()[type(node)]
