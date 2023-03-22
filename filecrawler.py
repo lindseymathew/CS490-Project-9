@@ -24,6 +24,7 @@ def crawl_directory(path, ignore_list):
   path = os.path.abspath(path)
   paths = []
 
+  # If the path is a file, check if specified in ignore_list.
   if os.path.isfile(path):
     if path in ignore_list['paths']:
       return []
@@ -33,6 +34,8 @@ def crawl_directory(path, ignore_list):
         return []
     return [path]
 
+  # If not file, crawl the directory and identify all the valid file paths
+  # not specified in ignore_list.
   for entry in os.scandir(path):
     if os.path.abspath(entry) in ignore_list['paths']:
       continue
