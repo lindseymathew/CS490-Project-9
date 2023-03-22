@@ -2,3 +2,5 @@
 pattern:__pycache__
 ./.gitignore
 pattern:.git
+pattern:.DS_Store
+./output
