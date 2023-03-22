@@ -7,12 +7,12 @@ crawl_directory traverses the 'path' in DFS fashion and identifies all the files
 not specified by ignore_list either via pattern or specific path.
 
 Usage:
-my_project
- |Test
-  --test.py
- | Help
-  --helpers.py
- configs.py
+└── my_project
+    ├── Test/
+    │   ├── test.py
+    ├── Help/
+        ├── helpers.py
+    └── configs.py
 
 crawl_directory(my_project, ['configs.py', 'Hel*']) -> ['my_project/Test/test.py']
 """
