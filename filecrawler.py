@@ -9,9 +9,9 @@ not specified by ignore_list either via pattern or specific path.
 Usage:
 └── my_project
     ├── Test/
-    │   ├── test.py
+    │   └── test.py
     ├── Help/
-        ├── helpers.py
+        └── helpers.py
     └── configs.py
 
 crawl_directory(my_project, ['configs.py', 'Hel*']) -> ['my_project/Test/test.py']
