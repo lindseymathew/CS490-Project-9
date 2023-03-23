@@ -55,7 +55,12 @@ def main():
       # Create file output structure that matches project structure in
       # output folder.
       rel_path = os.path.relpath(path, project_path)
-      output_file = os.path.splitext(rel_path)[0] + '_output'
+
+      filename_extension = os.path.splitext(rel_path)
+
+      # Given an example python file: test.py, the corresponding output file is
+      # named 'test_py_output' or '<base file name>_<extension type>_output>'
+      output_file = filename_extension[0] + '_' + filename_extension[1][1:] + '_output'
       output_dir = os.path.join(output_path, output_file)
 
       # Create the directories for the output file to exist.
