@@ -23,10 +23,7 @@ def main():
     print('Path entered:', project_path)
   
   output_path = os.path.abspath(sys.argv[2])
-  if not os.path.exists(output_path):
-    os.makedirs(output_path)
-    print('Output path entered:', output_path)
-  else:
+  if os.path.exists(output_path):
     print('Error: Output directory already exists -', output_path)
     return
 
@@ -41,6 +38,14 @@ def main():
   for [path, ast] in file_ast:
     ast_json = convert_ast_to_json(ast)
     results.append([path, ast_json])
+
+  # Create the output directory if there is something to output.
+  if len(results) > 0:
+    os.makedirs(output_path)
+    print('Output path entered:', output_path)
+  else:
+    print('Note: Specified project directory resulted in empty output.')
+    return
 
   # Each file that is found is output under the output directory
   # The naming convention of the output files is
