@@ -5,7 +5,6 @@ def get_function_names(root):
   if isinstance(root, ast.Name):
     return [root.id]
   elif isinstance(root, ast.Attribute):
-    print(ast.dump(root))
     return get_function_names(root.value) + [root.attr]
   elif isinstance(root, ast.Call):
     return get_function_names(root.func)
@@ -106,26 +105,17 @@ def walk_ast(node):
 
   todo = deque([node])
   while todo:
-    add_children = True
     node = todo.popleft()
 
     if isinstance(node, ast.Call):
       res['calls'].append(convert_call(node))
-      add_children = False
-    
-    if isinstance(node, ast.Import):
+    elif isinstance(node, ast.Import):
       res['imports'].append(convert_import(node))
-      add_children = False
-    
-    if isinstance(node, ast.ImportFrom):
+    elif isinstance(node, ast.ImportFrom):
       res['import_froms'].append(convert_import_from(node))
-      add_children = False
-    
-    if isinstance(node, ast.FunctionDef):
+    elif isinstance(node, ast.FunctionDef):
       res['function_defs'].append(convert_function_defs(node))
-      add_children = False
-
-    if add_children:
+    else:
       todo.extend(ast.iter_child_nodes(node))
 
   return res
