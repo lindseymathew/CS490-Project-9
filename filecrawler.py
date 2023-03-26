@@ -1,26 +1,27 @@
 import os
 import re
 
-"""Crawls the directory starting at the path to find file paths that are valid.
-
-crawl_directory traverses the 'path' in DFS fashion and identifies all the files that are
-not specified by ignore_list either via pattern or specific path.
-
-Usage:
-└── my_project
-    ├── Test/
-    │   └── test.py
-    ├── Help/
-        └── helpers.py
-    └── configs.py
-
-ignore_list = {}
-ignore_list['paths'] = ['my_project/configs.py']
-ignore_list['patterns'] = ['Hel.*']
-
-crawl_directory(my_project, ignore_list) -> ['my_project/Test/test.py']
-"""
 def crawl_directory(path, ignore_list):
+  '''Crawls the directory starting at the path to find file paths that are valid.
+
+  crawl_directory traverses the 'path' in DFS fashion and identifies all the files that are
+  not specified by ignore_list either via pattern or specific path.
+
+  Usage:
+  └── my_project
+      ├── Test/
+      │   └── test.py
+      ├── Help/
+          └── helpers.py
+      └── configs.py
+
+  ignore_list = {}
+  ignore_list['paths'] = ['my_project/configs.py']
+  ignore_list['patterns'] = ['Hel.*']
+
+  crawl_directory(my_project, ignore_list) -> ['my_project/Test/test.py']
+  '''
+
   path = os.path.abspath(path)
   paths = []
 

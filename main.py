@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from astconverter import convert_ast_to_json
+from astconverter import AstConverter
 from filecrawler import crawl_directory
 from ignore import create_ignore_dict
+from output import create_output_directory
 from parser import generate_file_ast
 
 import ast
@@ -36,7 +37,8 @@ def main():
   # Convert each AST to a JSON string.
   results = []
   for [path, ast] in file_ast:
-    ast_json = convert_ast_to_json(ast)
+    converter = AstConverter()
+    ast_json = converter.run(ast)
     results.append([path, ast_json])
 
   # Create the output directory if there is something to output.
@@ -52,21 +54,9 @@ def main():
   # [0, number of files with valid JSON data).
   for [path, ast_json] in results:
     if len(ast_json) > 0:
-      # Create file output structure that matches project structure in
-      # output folder.
-      rel_path = os.path.relpath(path, project_path)
-      if rel_path == '.':
-        rel_path = os.path.basename(project_path)
-      filename_extension = os.path.splitext(rel_path)
+      # Create the output directory
+      output_dir = create_output_directory(path, project_path, output_path)
 
-      # Given an example python file: test.py, the corresponding output file is
-      # named 'test_py_output' or '<base file name>_<extension type>_output>'
-      output_file = filename_extension[0] + '_' + filename_extension[1][1:] + '_output'
-      output_dir = os.path.join(output_path, output_file)
-
-      # Create the directories for the output file to exist.
-      os.makedirs(os.path.dirname(output_dir), exist_ok = True)
-      
       # Output the JSON file.
       output_file = open(output_dir, 'w')
       output_file.write(json.dumps(ast_json, indent = 2))

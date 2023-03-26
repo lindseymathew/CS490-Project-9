@@ -1,13 +1,12 @@
 import os
 import re
 
-"""
-Returns a dictionary containing paths and regex patterns that should be ignored
-by the file crawler. The ignore dictionary is created using the .ignore file.
-Paths can be relative or absolute, and patterns are specified using the
-'pattern:' prefix in the .ignore file.
-"""
 def create_ignore_dict():
+  '''Returns a dictionary containing paths and regex patterns that should be
+  ignored by the file crawler. The ignore dictionary is created using the
+  .ignore file. Paths can be relative or absolute, and patterns are specified
+  using the 'pattern:' prefix in the .ignore file.
+  '''
   output_dict = {'paths': [], 'patterns': []}
   try:
     with open('.ignore') as f:
