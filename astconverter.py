@@ -11,6 +11,59 @@ class AstConverter:
     # process.
     self.aliases = {}
 
+  def convert_arguments(self, root):
+    if isinstance(root, ast.Call):
+      return self.convert_call(root)
+    elif isinstance(root, ast.FunctionDef):
+      return self.convert_function_def(root)
+    elif isinstance(root, ast.Import):
+      return self.convert_import(root)
+    elif isinstance(root, ast.ImportFrom):
+      return self.convert_import_from(root)
+    elif isinstance(root, ast.Tuple):
+      tuple_dict = {}
+      tuple_dict['type'] = 'tuple'
+      elts = []
+      for node in root.elts:
+        elts.append(convert_arguments(node))
+      tuple_dict['elements'] = elts
+      return tuple_dict
+    elif isinstance(root, ast.List):
+      list_dict = {}
+      list_dict['type'] = 'list'
+      elts = []
+      for node in root.elts:
+        elts.append(self.convert_arguments(node))
+      list_dict['elements'] = elts
+      return list_dict
+    elif isinstance(root, ast.Set):
+      set_dict = {}
+      set_dict['type'] = 'set'
+      elts = []
+      for node in root.elts:
+        elts.append(self.convert_arguments(node))
+      set_dict['elements'] = elts
+      return set_dict
+    elif isinstance(root, ast.Dict):
+      dict_dict = {}
+      dict_dict['type'] = 'dict'
+      keys = []
+      values = []
+
+      for key in root.keys:
+        keys.append(self.convert_arguments(key))
+      
+      for value in root.values:
+        values.append(self.convert_arguments(value))
+      
+      dict_dict['keys'] = keys
+      dict_dict['values'] = values
+      return dict_dict
+    
+    else:
+      return ast.unparse(root)
+      
+
   def run(self, root):
     '''We are only interested in Import, ImportFrom, Call, and FunctionDef nodes.
     
@@ -69,14 +122,12 @@ class AstConverter:
 
     '''
     call = {}
+    call['type'] = 'call'
     call['function'] = self.get_function_names(root.func)
 
     args = []
     for node in root.args:
-      if isinstance(node, ast.Call):
-        args.append(self.convert_call(node))
-      else:
-        args.append(ast.unparse(node))
+      args.append(self.convert_arguments(node))
     
     keywords = []
     for node in root.keywords:
@@ -109,6 +160,7 @@ class AstConverter:
     }
     '''
     import_res = {}
+    import_res['type'] = 'import'
     import_aliases = []
     for z in root.names:
       alias = {}
@@ -142,6 +194,7 @@ class AstConverter:
     '''
     import_from = {}
     import_from['module'] = root.module
+    import_from['type'] = 'import_from'
     import_aliases = []
     for z in root.names:
       alias = {}
@@ -204,8 +257,9 @@ class AstConverter:
 
     '''
     function = {}
+    function['type'] = 'function_def'
     function['name'] = root.name
-    function['args'] = [ast.unparse(arg) for arg in root.args.args]
+    function['args'] = [self.convert_arguments(arg) for arg in root.args.args]
     
     calls = []
     function_defs = []
