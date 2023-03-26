@@ -7,7 +7,7 @@ def crawl_directory(path, ignore_list):
   crawl_directory traverses the 'path' in DFS fashion and identifies all the files that are
   not specified by ignore_list either via pattern or specific path.
 
-  Usage:
+  Example:
   └── my_project
       ├── Test/
       │   └── test.py
@@ -29,11 +29,18 @@ def crawl_directory(path, ignore_list):
   if os.path.isfile(path):
     if path in ignore_list['paths']:
       return []
-    
-    for pattern in ignore_list['patterns']:
+
+    for pattern in ignore_list['ignore']:
       if re.search(pattern, path) != None:
         return []
-    return [path]
+
+    if len(ignore_list['include']) > 0:
+      for pattern in ignore_list['include']:
+        if re.search(pattern, path) != None:
+          return [path]
+      return []
+    else:
+      return [path]
 
   # If not file, crawl the directory and identify all the valid file paths
   # not specified in ignore_list.
@@ -42,11 +49,11 @@ def crawl_directory(path, ignore_list):
       continue
       
     cont = False
-    for pattern in ignore_list['patterns']:
+    for pattern in ignore_list['ignore']:
       if re.search(pattern, os.path.abspath(entry)) != None:
         cont = True
         break
-    
+
     if cont:
       continue
 
@@ -54,6 +61,12 @@ def crawl_directory(path, ignore_list):
       res = crawl_directory(os.path.join(path, entry.name), ignore_list)
       paths = paths + res
     else:
-      paths.append(os.path.join(path, entry.name))
+      if len(ignore_list['include']) > 0:
+        for pattern in ignore_list['include']:
+          if re.search(pattern, os.path.abspath(entry)) != None:
+            paths.append(os.path.join(path, entry.name))
+            break
+      else:
+        paths.append(os.path.join(path, entry.name))
 
   return paths

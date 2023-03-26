@@ -1,6 +1,5 @@
 ./.ignore
-pattern:__pycache__
+ignore:__pycache__
 ./.gitignore
-pattern:.git
-pattern:.DS_Store
+include:.py
 ./output
