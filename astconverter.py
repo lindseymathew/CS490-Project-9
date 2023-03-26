@@ -1,9 +1,21 @@
 from collections import deque
 import ast
 
+def get_function_names(root):
+  if isinstance(root, ast.Name):
+    return [root.id]
+  elif isinstance(root, ast.Attribute):
+    print(ast.dump(root))
+    return get_function_names(root.value) + [root.attr]
+  elif isinstance(root, ast.Call):
+    return get_function_names(root.func)
+  else:
+    return [ast.unparse(root)]
+
 def convert_call(root):
   call = {}
-  call['function'] = ast.unparse(root.func)
+  call['function'] = get_function_names(root.func)
+
   args = []
   for node in root.args:
     if isinstance(node, ast.Call):

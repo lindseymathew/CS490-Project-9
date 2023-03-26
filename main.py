@@ -3,7 +3,7 @@
 from astconverter import convert_ast_to_json
 from filecrawler import crawl_directory
 from ignore import create_ignore_dict
-from astgen.parser import generate_file_ast
+from parser import generate_file_ast
 
 import ast
 import json
