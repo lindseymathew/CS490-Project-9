@@ -133,7 +133,7 @@ class AstConverter:
     for node in root.keywords:
       keyword = {}
       keyword['keyword'] = node.arg
-      keyword['value'] = ast.unparse(node.value)
+      keyword['value'] = self.convert_arguments(node.value)
       keywords.append(keyword)
 
     call['args'] = args
