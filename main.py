@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from asttojson import convert_ast_to_json
+from astconverter import convert_ast_to_json
 from filecrawler import crawl_directory
 from ignore import create_ignore_dict
-from parser import generate_file_ast
+from astgen.parser import generate_file_ast
 
 import ast
 import json
@@ -55,7 +55,8 @@ def main():
       # Create file output structure that matches project structure in
       # output folder.
       rel_path = os.path.relpath(path, project_path)
-
+      if rel_path == '.':
+        rel_path = os.path.basename(project_path)
       filename_extension = os.path.splitext(rel_path)
 
       # Given an example python file: test.py, the corresponding output file is
