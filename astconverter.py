@@ -11,6 +11,15 @@ class AstConverter:
     # process.
     self.aliases = {}
 
+  def run(self, root):
+    '''We are only interested in Import, ImportFrom, Call, and FunctionDef nodes.
+    
+    This function returns a simplified JSON representation of an AST,
+    segregated by Import, ImportFrom, Call, and FunctionDef nodes.
+    '''
+
+    return self.walk_ast(root)
+
   def convert_arguments(self, root):
     if isinstance(root, ast.Call):
       return self.convert_call(root)
@@ -62,16 +71,6 @@ class AstConverter:
     
     else:
       return ast.unparse(root)
-      
-
-  def run(self, root):
-    '''We are only interested in Import, ImportFrom, Call, and FunctionDef nodes.
-    
-    This function returns a simplified JSON representation of an AST,
-    segregated by Import, ImportFrom, Call, and FunctionDef nodes.
-    '''
-
-    return self.walk_ast(root)
 
   def get_function_names(self, root):
     '''Returns all the function names of a node as a list.
@@ -82,21 +81,32 @@ class AstConverter:
 
     yields
 
-    ['return_test', 'walk', 'hello_world']
+    {
+      "object": {
+        "object": [
+          "return_test"
+        ],
+        "attribute": "walk"
+      },
+      "attribute": "hello_world"
+    }
     '''
     if isinstance(root, ast.Name):
       if root.id in self.aliases:
-        return [self.aliases[root.id]]
-      return [root.id]
+        return self.aliases[root.id]
+      return root.id
     elif isinstance(root, ast.Attribute):
-      return self.get_function_names(root.value) + [root.attr]
+      attr = {}
+      attr['object'] = self.get_function_names(root.value)
+      attr['attribute'] = root.attr
+      return attr
     elif isinstance(root, ast.Call):
       return self.get_function_names(root.func)
     else:
       key = ast.unparse(root)
       if key in self.aliases:
-        return [self.aliases[key]]
-      return [key]
+        return self.aliases[key]
+      return key
 
   def convert_call(self, root):
     '''Converts Call nodes into a dictionary with the fields 'function', args',

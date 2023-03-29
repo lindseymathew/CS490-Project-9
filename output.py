@@ -42,7 +42,10 @@ def create_output_directory(path, project_path, output_path):
 
   # Given an example python file: test.py, the corresponding output file is
   # named 'test_py_output' or '<base file name>_<extension type>_output>'
-  output_file = filename_extension[0] + '_' + filename_extension[1][1:] + '_output'
+  output_file = filename_extension[0]
+  if filename_extension[1][1:] == '':
+    output_file = output_file + '_' + filename_extension[1][1:]
+  output_file = output_file + '_output'
   output_dir = os.path.join(output_path, output_file)
 
   # Create the directories for the output file to exist.

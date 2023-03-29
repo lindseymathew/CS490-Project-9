@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 from astconverter import AstConverter
+from astfilter import ASTFilter
 from filecrawler import crawl_directory
 from ignore import create_ignore_dict
 from output import create_output_directory
 from parser import generate_file_ast
+from readfunctionnames import read_function_names
 
 import ast
 import json
@@ -30,16 +32,20 @@ def main():
 
   # Retrieve file paths that are not 'ignored' by the .ignore file.
   file_paths = crawl_directory(project_path, create_ignore_dict())
-
   # Generate file AST for each path.
   file_ast = generate_file_ast(file_paths)
+
+  function_names, args = read_function_names('./function_names.json')
 
   # Convert each AST to a JSON string.
   results = []
   for [path, ast] in file_ast:
-    converter = AstConverter()
-    ast_json = converter.run(ast)
-    results.append([path, ast_json])
+    ast_converter = AstConverter()
+    converted_ast = ast_converter.run(ast)
+    
+    ast_filter = ASTFilter(function_names, args)
+    filtered_ast = ast_filter.run(converted_ast)
+    results.append([path, filtered_ast])
 
   # Create the output directory if there is something to output.
   if len(results) > 0:
