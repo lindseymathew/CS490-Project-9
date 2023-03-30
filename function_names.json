@@ -1,10 +1,24 @@
 {
   "functions": [
-    {
-      "name": "return_One",
-      "args": [
-        "x", "y"
-      ]
-    }
-  ]
+{
+    "module": "torch.nn",
+    "functions": ["Linear","Conv1d", "Conv2d", "Conv3d", "BatchNorm2d", "ReLU", "Dropout", "CrossEntropyLoss", "ELU", "Hardshrink", "LogSigmoid", "Softshrink", "Tanh", "Softmin", "Softmax", "RNN", "LSTM", "GRU", "Embedding", "L1Loss", "MSELoss", "NLLLoss", "LeakyReLU", "PReLU" , "ReLU6", "RReLU", "SELU", "CELU", "Sigmoid", "Softplus", "Softsign", "Tanhshrink", "Threshold", "Softmax2d", "LogSoftmax", "BatchNorm1d", "BatchNorm3d", "GroupNorm", "Bilinear", "Dropout2d", "Dropout3d", "AlphaDropout"]
+},
+{
+    "module": "torch.optim",
+    "functions": ["Adam", "SGD", "Adadelta", "Adagrad", "AdamW", "SparseAdam", "Adamax", "ASGD", "LBFGS", "NAdam", "RAdam", "RMSprop", "Rprop"]
+},
+{
+    "module": "keras.layers",
+    "functions": ["Dense", "Conv2D", "BatchNormalization", "Activation", "Dropout", "Average", "CategoryEncoding", "Conv1D", "Conv3D", "ELU", "Flatten", "GuassianDropout", "InputLayer", "Softmax", "AbstractRNNCell", "ConvLSTM1D", "ConvLSTM2D", "ConvLSTM3D", "Convolution1D", "ThresholdReLU", "SeperableConv1D", "SeperableConv2D", "SimpleRNN", "PReLU", "GRU"]
+},
+{
+    "module": "keras.optimizers",
+    "functions": ["Adam", "SGD", "RMSprop", "AdamW", "Adadelta", "Adagrad", "Adamax", "Adafactor", "Nadam", "Ftrl"]
+},
+{
+    "module": "keras.losses",
+    "functions": ["CategoricalCrossentropy", "BinaryCrossentropy", "SparseCategoricalCrossentropy", "KLDivergence", "MeanSquaredError", "MeanAbsoluteError", "MeanAbsolutePercentageError", "MeanSquaredLogarithmicError", "Hinge"]
+}
+]
 }
