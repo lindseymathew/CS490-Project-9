@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from astconverter import AstConverter
-from astfilter import ASTFilter
-from filecrawler import crawl_directory
-from ignore import create_ignore_dict
-from output import create_output_directory
-from parser import generate_file_ast
-from readfunctionnames import read_function_names
+from src.ast.astconverter import ASTConverter
+from src.ast.astfilter import ASTFilter
+from src.output.output import create_output_directory
+from src.readers.filecrawler import crawl_directory
+from src.readers.ignore import create_ignore_dict
+from src.readers.parser import generate_file_ast
+from src.readers.readfunctionnames import read_function_names
 
 import ast
 import json
@@ -35,15 +35,15 @@ def main():
   # Generate file AST for each path.
   file_ast = generate_file_ast(file_paths)
 
-  function_names, args = read_function_names('./function_names.json')
+  func_args = read_function_names('./function_names.json')
 
   # Convert each AST to a JSON string.
   results = []
   for [path, ast] in file_ast:
-    ast_converter = AstConverter()
+    ast_converter = ASTConverter()
     converted_ast = ast_converter.run(ast)
     
-    ast_filter = ASTFilter(function_names, args)
+    ast_filter = ASTFilter(func_args)
     filtered_ast = ast_filter.run(converted_ast)
     results.append([path, filtered_ast])
 

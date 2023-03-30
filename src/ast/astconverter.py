@@ -1,8 +1,8 @@
 from collections import deque
 import ast
 
-class AstConverter:
-  '''General purpose class for converting a abstract syntax tree (AST) generated
+class ASTConverter:
+  '''General purpose class for converting an abstract syntax tree (AST) generated
   by the Python ast module
   '''
 
